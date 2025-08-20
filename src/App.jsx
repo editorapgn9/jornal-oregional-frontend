@@ -28,16 +28,16 @@ export default function App() {
         "https://jornal-oregional-backend.onrender.com/contatos",
         contato
       );
-      setMensagem("Cadastro realizado com sucesso!");
+      setMensagem("✅ Cadastro realizado com sucesso!");
       setContato({ nome: "", email: "" });
     } catch (err) {
       console.error("Erro ao enviar contato", err);
-      setMensagem("Erro ao cadastrar. Tente novamente.");
+      setMensagem("❌ Erro ao cadastrar. Tente novamente.");
     }
   };
 
   return (
-    <div className="App">
+    <div className="app">
       {/* Cabeçalho */}
       <header className="header">
         <h1>O Regional</h1>
