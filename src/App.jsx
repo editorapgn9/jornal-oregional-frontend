@@ -45,8 +45,8 @@ export default function App() {
       </header>
 
       <main>
-        {/* Edição Atual */}
-        <section className="edicao-atual">
+        {/* Leia o jornal O Regional */}
+        <section className="Leia o jornal O Regional">
           <h2>Edição Atual</h2>
           {edicoes.length > 0 ? (
             <a
