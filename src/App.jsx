@@ -47,7 +47,7 @@ export default function App() {
       <main>
         {/* Leia o jornal O Regional */}
         <section className="Leia o jornal O Regional">
-          <h2>Edição Atual</h2>
+          <h2>Leia o jornal O Regional</h2>
           {edicoes.length > 0 ? (
             <a
               href={edicoes[edicoes.length - 1].link}
