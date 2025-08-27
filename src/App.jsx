@@ -12,8 +12,9 @@ export default function App() {
     axios
       .get("https://jornal-oregional-backend.onrender.com/edicoes")
       .then((res) => {
+        // Ordena para a mais recente vir primeiro
         const ordenadas = [...res.data].sort((a, b) =>
-          a.nome.localeCompare(b.nome)
+          b.nome.localeCompare(a.nome)
         );
         setEdicoes(ordenadas);
       })
@@ -45,17 +46,45 @@ export default function App() {
       </header>
 
       <main>
-        {/* Leia o jornal O Regional */}
-        <section className="Leia o jornal O Regional">
-          <h2>Leia o jornal O Regional</h2>
+        {/* Jornal */}
+        <section className="mb-8">
+          <h2 className="text-2xl font-bold mb-4">Leia o jornal O Regional</h2>
+
           {edicoes.length > 0 ? (
-            <a
-              href={edicoes[edicoes.length - 1].link}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              📄 {edicoes[edicoes.length - 1].nome}
-            </a>
+            <div>
+              {/* Última edição em destaque */}
+              <a
+                href={edicoes[0].link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center bg-[#2c2c9c] text-white font-semibold px-4 py-2 rounded hover:bg-blue-800 transition mb-4"
+              >
+                📄 {edicoes[0].nome}
+              </a>
+
+              {/* Outras edições */}
+              {edicoes.length > 1 && (
+                <div className="mt-4">
+                  <h3 className="text-lg font-semibold mb-2">
+                    Edições anteriores:
+                  </h3>
+                  <ul className="list-disc pl-5">
+                    {edicoes.slice(1).map((edicao, index) => (
+                      <li key={index}>
+                        <a
+                          href={edicao.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 underline"
+                        >
+                          📄 {edicao.nome}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           ) : (
             <p>Nenhuma edição disponível no momento.</p>
           )}
