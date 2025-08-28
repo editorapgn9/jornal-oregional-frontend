@@ -7,16 +7,12 @@ export default function App() {
   const [contato, setContato] = useState({ nome: "", email: "" });
   const [mensagem, setMensagem] = useState("");
 
-  // Carregar edições ordenadas pela mais recente
+  // Carregar edições
   useEffect(() => {
     axios
       .get("https://jornal-oregional-backend.onrender.com/edicoes")
       .then((res) => {
-        // Ordena para a mais recente vir primeiro
-        const ordenadas = [...res.data].sort((a, b) =>
-          b.nome.localeCompare(a.nome)
-        );
-        setEdicoes(ordenadas);
+        setEdicoes(res.data);
       })
       .catch((err) => console.error("Erro ao carregar edições", err));
   }, []);
@@ -37,6 +33,12 @@ export default function App() {
     }
   };
 
+  // Formatar data
+  const formatarData = (iso) => {
+    if (!iso) return "";
+    return new Date(iso).toLocaleDateString("pt-BR");
+  };
+
   return (
     <div className="app">
       {/* Cabeçalho */}
@@ -46,9 +48,11 @@ export default function App() {
       </header>
 
       <main>
-        {/* Jornal */}
-        <section className="mb-8">
-          <h2 className="text-2xl font-bold mb-4">Leia o jornal O Regional</h2>
+        {/* Edições */}
+        <section className="mb-6">
+          <h2 className="text-2xl font-bold text-[#2c2c9c] mb-4">
+            Última edição
+          </h2>
 
           {edicoes.length > 0 ? (
             <div>
@@ -59,7 +63,12 @@ export default function App() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center bg-[#2c2c9c] text-white font-semibold px-4 py-2 rounded hover:bg-blue-800 transition mb-4"
               >
-                📄 {edicoes[0].nome}
+                📄 {edicoes[0].nome}{" "}
+                {edicoes[0].data && (
+                  <span className="ml-2 text-sm text-gray-200">
+                    ({formatarData(edicoes[0].data)})
+                  </span>
+                )}
               </a>
 
               {/* Outras edições */}
@@ -68,7 +77,7 @@ export default function App() {
                   <h3 className="text-lg font-semibold mb-2">
                     Edições anteriores:
                   </h3>
-                  <ul className="list-disc pl-5">
+                  <ul className="list-disc pl-5 space-y-1">
                     {edicoes.slice(1).map((edicao, index) => (
                       <li key={index}>
                         <a
@@ -79,6 +88,11 @@ export default function App() {
                         >
                           📄 {edicao.nome}
                         </a>
+                        {edicao.data && (
+                          <span className="ml-2 text-gray-500 text-sm">
+                            ({formatarData(edicao.data)})
+                          </span>
+                        )}
                       </li>
                     ))}
                   </ul>
